@@ -78,7 +78,7 @@ function dandoTroco(cid, price, cash) {
         }
     }
     
-    if (troco > 0) { return  {status: "INSUFFICIENT_FUNDS", change: []} }
+    if (troco > 0) { return {status: "INSUFFICIENT_FUNDS", change: []} }
     
     return {status: "OPEN", change: somaTipoNota([...arrDeCedulasRemovidas])}
 }
