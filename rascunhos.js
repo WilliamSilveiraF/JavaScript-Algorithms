@@ -67,9 +67,13 @@ function removeCedula(nomeDeCedula, cid) {//Só remove uma cédula por chamada
 
 function dandoTroco(cid, price, cash) {
     let troco = (cash - price).toFixed(2)
+    
+    if ( cid.filter(cedula => cedula[1].toFixed(2) > 0.00).length <= 1 ) {
+        return {status: "CLOSED", change: [...cid]}
+    }
 
     cid = contadorDeCedula(cid)
-
+    
     for (let i = 0; i < arrKeys.length; i++) {
         while ( cid.filter(nota => nota[0] == arrKeys[i]).length > 0 && troco > 0.00 && troco >= value[arrKeys[i]] ) { //Enquanto tiver cédula no meu cash-in-dranw
             cid = removeCedula(arrKeys[i], cid); //Retorna um novo array com apenas UMA cédula removida, se a cédula que eu tentar remover não existir retorno o Array sem alteração
@@ -84,6 +88,8 @@ function dandoTroco(cid, price, cash) {
 }
 
 function checkCashRegister(price, cash, cid) {
+    
+    
     var result = price > cash ? {status: "INSUFFICIENT_FUNDS", change: []} :
                  price == cash ? {status: "CLOSED", change: [...cid]} :
                  dandoTroco(cid, price, cash)

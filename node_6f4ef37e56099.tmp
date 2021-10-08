@@ -24,7 +24,15 @@ function removeCedula(nomeDeCedula, cid) {//Só remove uma cédula por chamada
     cid.splice(posicaoDaRemovida, 1)
     return cid;
 }
-
+function somaTipoNota(arr) { //Retorna um array onde cada elemento é composto por [nome da cédula, valor da cédula * quantidade encontrada]
+    let deNotasSomadas = [];
+    for (let i = 0; i < arrKeys.length; i++) {
+        var amountDeNotas = arr.filter(nota => nota[0] == arrKeys[i]).length;//Filtrei várias vezes o arr de referência por tipo de nota, a fim de pegar a quantidade delas.
+        //Se a quantidade de cédulas daquele tipo de valor for maior que 0, dê o push no formato [nome do valor da cédula, somatório total]
+        amountDeNotas > 0 ? deNotasSomadas.push([  arrKeys[i], amountDeNotas * value[arrKeys[i]] ]) : null
+    }
+    return deNotasSomadas
+}
 
 function checkCashRegister(price, cash, cid) {
     let troco = (cash - price).toFixed(2);
@@ -62,18 +70,20 @@ function checkCashRegister(price, cash, cid) {
         jx++;
     }
     
-    //Soma Por Tipo de Nota
-    var copiaArrRemovidas = arrDeCedulasRemovidas.slice(0,)
+    var copiaArrRemovidas = arrDeCedulasRemovidas.slice(0, arrDeCedulasRemovidas.length-1)
     let deNotasSomadas = [];
     let z = 0
     while (z < arrKeys.length) {
         var amountDeNotas = copiaArrRemovidas.filter(nota => nota[0] == arrKeys[z]).length;
         amountDeNotas > 0 ? deNotasSomadas.push([  arrKeys[z], amountDeNotas * value[arrKeys[z]] ]) : deNotasSomadas
-        z++
     }
+    
 
     if (troco > 0) return {status: "INSUFFICIENT_FUNDS", change: []}
-    return {status: "OPEN", change: [...deNotasSomadas]}
+    return {status: "OPEN", change: somaTipoNota(...deNotasSomadas)}
 }
 
-console.log(checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]))
+
+
+//console.log(contadorDeCedula([["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]))
+console.log(checkCashRegister(19.5, 20, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]]))

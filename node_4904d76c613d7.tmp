@@ -1,0 +1,56 @@
+const value = {
+    'ONE HUNDRED' : 100,
+    'TWENTY': 20,
+    'TEN': 10,
+    'FIVE': 5,
+    'ONE': 1,
+    'QUARTER': 0.25,
+    'DIME': 0.1,
+    'NICKEL': 0.05,
+    'PENNY': 0.01
+}
+const arrKeys = Object.keys(value);
+
+function contadorDeCedula(arrDeCedulas) {
+    var cedula; 
+    let newArrDeCedulas = [];
+    let k = 0;
+    while (k < arrKeys.length) {
+        cedula = arrDeCedulas.find(nota => nota[0] == arrKeys[k]) //Ache a cédula que eu quero.
+        qtdCedula = (cedula[1] / value[arrKeys[k]]).toFixed(2)
+        console.log(qtdCedula)
+        k++
+        let x = 0
+        while (x < qtdCedula) {
+
+        }
+    }
+    
+    for (let i = 0; i < arrKeys.length; i++) {
+        let x = 0;
+        cedulaSeparada = arrDeCedulas.find(nota => nota[0] == arrKeys[i])
+        //console.log(cedulaSeparada)
+        amountDeCedula = (cedulaSeparada[1] / value[arrKeys[i]]).toFixed(2)
+        //console.log(amountDeCedula)
+        while (x < amountDeCedula) {
+            console.log(newArrDeCedulas)
+            newArrDeCedulas.push( [arrKeys[i], value[arrKeys[i]]] )
+            x++
+        }
+    }
+    return newArrDeCedulas
+}
+
+
+function checkCashRegister(price, cash, cid) {
+    let troco = (cash - price).toFixed(2);
+    var cid = [...cid]
+   
+    //if ( cid.filter(cedula => cedula[1].toFixed(2) > 0.00).length <= 1 ) {
+    //    return {status: "CLOSED", change: [...cid]}
+    //}
+    cid = contadorDeCedula(cid)
+}
+
+
+checkCashRegister(19.5, 20, [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]])

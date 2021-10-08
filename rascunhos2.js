@@ -56,3 +56,32 @@ function somaTipoNota(arr) { //Retorna um array onde cada elemento é composto p
     }
     return deNotasSomadas
 }
+
+const someMeuCaixa = (allCedulas) => {
+    var sumCash = 0;
+    while (allCedulas.length > 0) {
+        sumCash += (allCedulas[0][1])
+        allCedulas.shift() 
+    }
+    return sumCash.toFixed(2)
+}
+
+console.log(someMeuCaixa(arrAgregado))
+/*
+function contadorDeCedula(arrDeCedulas) {
+    var cedula; 
+    let newArrDeCedulas = [];
+    let k = 0;
+    while (k < arrKeys.length) {
+        cedula = arrDeCedulas.find(nota => nota[0] == arrKeys[k]) //Ache a cédula que eu quero.
+        qtdCedula = (cedula[1] / value[arrKeys[k]]).toFixed(2) //Calcule a quantidade de Cédulas daquele valor
+        let x = 0
+        while (x < qtdCedula) {
+            newArrDeCedulas.push( [ [arrKeys[k]], value[arrKeys[k]] ] ) //Adicione uma cédula ao meu dataBank
+            x++
+        }
+        k++//Some o K e começe novamente
+    }
+    return newArrDeCedulas
+}
+*/
