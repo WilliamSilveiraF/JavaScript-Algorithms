@@ -21,6 +21,7 @@ function somaTipoNota(arr) { //Retorna um array onde cada elemento é composto p
     return deNotasSomadas
 }
 
+
 function checkCashRegister(price, cash, cid) {
     
     var result = price > cash ? {status: "INSUFFICIENT_FUNDS", change: []} :

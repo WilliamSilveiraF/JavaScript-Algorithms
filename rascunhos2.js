@@ -32,12 +32,10 @@ var arrKeys = Object.keys(value);
 function contadorDeCedula(arrDeCedulas) {
     var cedulaSeparada;
     let newArrDeCedulas = [];
-
     for (let i = 0; i < arrKeys.length; i++) {
         let x = 0;
         cedulaSeparada = arrDeCedulas.find(nota => nota[0] == arrKeys[i])
         amountDeCedula = (cedulaSeparada[1] / value[arrKeys[i]]).toFixed(2)
-
         while (x < amountDeCedula) {
             newArrDeCedulas.push( [arrKeys[i], value[arrKeys[i]]] )
             x++
@@ -58,4 +56,3 @@ function somaTipoNota(arr) { //Retorna um array onde cada elemento é composto p
     }
     return deNotasSomadas
 }
-console.log(somaTipoNota(contadorDeCedula(arrAgregado)))

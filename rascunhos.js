@@ -1,29 +1,29 @@
 let arr = [
-    [ 'Twenty Dollars', 20 ],
-    [ 'Twenty Dollars', 20 ],
-    [ 'Twenty Dollars', 20 ],
-    [ 'Twenty Dollars', 20 ],
-    [ 'Ten Dollars', 10 ],
-    [ 'Five Dollars', 5 ],
-    [ 'Dollar', 1 ],
-    [ 'Quarter', 0.25 ],
-    [ 'Quarter', 0.25 ],
-    [ 'Quarter', 0.25 ],
-    [ 'Penny', 0.01 ],
-    [ 'Penny', 0.01 ],
-    [ 'Penny', 0.01 ],
-    [ 'Penny', 0.01 ]
+    [ 'TWENTY', 20 ],
+    [ 'TWENTY', 20 ],
+    [ 'TWENTY', 20 ],
+    [ 'TWENTY', 20 ],
+    [ 'TEN', 10 ],
+    [ 'FIVE', 5 ],
+    [ 'ONE', 1 ],
+    [ 'QUARTER', 0.25 ],
+    [ 'QUARTER', 0.25 ],
+    [ 'QUARTER', 0.25 ],
+    [ 'PENNY', 0.01 ],
+    [ 'PENNY', 0.01 ],
+    [ 'PENNY', 0.01 ],
+    [ 'PENNY', 0.01 ]
 ]
 let value = {
-    'One-hundred Dollars' : 100,
-    'Twenty Dollars': 20,
-    'Ten Dollars': 10,
-    'Five Dollars': 5,
-    'Dollar': 1,
-    'Quarter': 0.25,
-    'Dime': 0.1,
-    'Nickel': 0.05,
-    'Penny': 0.01
+    'ONE HUNDRED' : 100,
+    'TWENTY': 20,
+    'TEN': 10,
+    'FIVE': 5,
+    'ONE': 1,
+    'QUARTER': 0.25,
+    'DIME': 0.1,
+    'NICKEL': 0.05,
+    'PENNY': 0.01
 }
 var arrKeys = Object.keys(value);
 
@@ -38,7 +38,20 @@ function somaTipoNota(arr) { //Retorna um array onde cada elemento é composto p
     }
     return deNotasSomadas
 }
-
+function contadorDeCedula(arrDeCedulas) {
+    var cedulaSeparada;
+    let newArrDeCedulas = [];
+    for (let i = 0; i < arrKeys.length; i++) {
+        let x = 0;
+        cedulaSeparada = arrDeCedulas.find(nota => nota[0] == arrKeys[i])
+        amountDeCedula = (cedulaSeparada[1] / value[arrKeys[i]]).toFixed(2)
+        while (x < amountDeCedula) {
+            newArrDeCedulas.push( [arrKeys[i], value[arrKeys[i]]] )
+            x++
+        }
+    }
+    return newArrDeCedulas
+}
 
 function removeCedula(nomeDeCedula, cid) {//Só remove uma cédula por chamada
     var cedRemovida = cid.find(nota => nota[0] == nomeDeCedula);
@@ -52,9 +65,11 @@ function removeCedula(nomeDeCedula, cid) {//Só remove uma cédula por chamada
     return cid;
 }
 
-function dandoTroco(cid) {
-    let troco = 0.5;
-    
+function dandoTroco(cid, price, cash) {
+    let troco = (cash - price).toFixed(2)
+
+    cid = contadorDeCedula(cid)
+
     for (let i = 0; i < arrKeys.length; i++) {
         while ( cid.filter(nota => nota[0] == arrKeys[i]).length > 0 && troco > 0.00 && troco >= value[arrKeys[i]] ) { //Enquanto tiver cédula no meu cash-in-dranw
             cid = removeCedula(arrKeys[i], cid); //Retorna um novo array com apenas UMA cédula removida, se a cédula que eu tentar remover não existir retorno o Array sem alteração
@@ -62,18 +77,17 @@ function dandoTroco(cid) {
             troco = troco.toFixed(2)
         }
     }
-    console.log(troco)
+    
     if (troco > 0) { return  {status: "INSUFFICIENT_FUNDS", change: []} }
-    return {status: "CLOSED", change: somaTipoNota([...arrDeCedulasRemovidas])}
+    
+    return {status: "OPEN", change: somaTipoNota([...arrDeCedulasRemovidas])}
 }
 
 function checkCashRegister(price, cash, cid) {
     var result = price > cash ? {status: "INSUFFICIENT_FUNDS", change: []} :
                  price == cash ? {status: "CLOSED", change: [...cid]} :
-                 dandoTroco(price, cash, cid)
+                 dandoTroco(cid, price, cash)
     return result
 }
 
-console.log(dandoTroco(arr))
-
-
+console.log(checkCashRegister(19.5, 20, [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]]))
